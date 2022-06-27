@@ -44,11 +44,11 @@ app.post('/auth/register', registerValidation, async (req, res) => {
 
         const token = jwt.sign(
             {
-               id: user._id
+                id: user._id
             },
-               "secret123456",
+            "secret123456",
             {
-               expiresIn: '30d'
+                expiresIn: '30d'
             }
         )
 
@@ -67,8 +67,55 @@ app.post('/auth/register', registerValidation, async (req, res) => {
 })
 
 
+app.post('/auth/login', async (req, res) => {
 
+    try {
+        const user = await UserSchema.findOne({ email: req.body.email })
+        if (!user) {
+            return res.status(404).json({
+                message: 'Login or password is wrong!'
+            })
+        }
 
+        const isValidPassword = await bcrypt.compare(req.body.password, user._doc.passwordHash)
+        if(!isValidPassword){
+            return res.status(400).json({
+                message: 'Login or password is wrong!'
+            })
+        }
+
+        const token = jwt.sign(
+            {
+                id: user._id
+            },
+            "secret123456",
+            {
+                expiresIn: '30d'
+            }
+        )
+
+        const { passwordHash, ...userData } = user._doc
+        res.json({
+            ...userData,
+            token
+        })
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            message: 'Failed to login',
+        })
+    }
+})
+
+app.get('auth/me', async(req, res) => {
+
+    try{
+
+    }catch(error){
+
+    }
+})
 
 
 app.listen(4444, (error) => {
