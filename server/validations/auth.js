@@ -1,5 +1,10 @@
 import { body } from "express-validator";
 
+export const loginValidation = [
+    body('email', 'Email is not valid').isEmail(),
+    body('password', 'Min 6 symbol').isLength({ min: 6 }),
+]
+
 export const registerValidation = [
     body('email', 'Email is not valid').isEmail(),
     body('password', 'Min 6 symbol').isLength({ min: 6 }),
