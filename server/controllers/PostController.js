@@ -2,8 +2,8 @@ import PostSchema from '../models/Post.js'
 
 export const create = async (req, res) => {
 
-    const userId = req.userId
-    console.log(userId)
+    const userId = req.userId;
+    console.log(userId);
 
     try {
         const doc = new PostSchema({
@@ -14,11 +14,11 @@ export const create = async (req, res) => {
             user: req.userId
         })
 
-        const post = await doc.save()
-        res.json(post)
+        const post = await doc.save();
+        res.json(post);
 
     } catch (error) {
-        console.log(error)
+        console.log(error);
         res.status(500).json({
             message: 'Failed to create post',
         })
@@ -28,11 +28,11 @@ export const create = async (req, res) => {
 export const getAll = async (req, res) => {
 
     try {
-        const posts = await PostSchema.find().populate('user').exec()
-        res.json(posts)
+        const posts = await PostSchema.find().populate('user').exec();
+        res.json(posts);
 
     } catch (error) {
-        console.log(error)
+        console.log(error);
         res.status(500).json({
             message: 'Failed to read posts',
         })
@@ -42,7 +42,7 @@ export const getAll = async (req, res) => {
 export const getOne = async (req, res) => {
 
     try {
-        const postId = req.params.id
+        const postId = req.params.id;
         PostSchema.findOneAndUpdate({
             _id: postId,
         }, {
@@ -61,13 +61,13 @@ export const getOne = async (req, res) => {
                     message: 'Post is not found'
                 })
             }
-            res.json(doc)
+            res.json(doc);
         })
 
 
 
     } catch (error) {
-        console.log(error)
+        console.log(error);
         res.status(500).json({
             message: 'Failed to read posts',
         })
@@ -77,13 +77,13 @@ export const getOne = async (req, res) => {
 export const remove = async (req, res) => {
 
     try {
-        const postId = req.params.id
+        const postId = req.params.id;
         PostSchema.findOneAndDelete({
             _id: postId
         }, (err, doc) => {
 
             if (err) {
-                console.log(err)
+                console.log(err);
                 return res.status(500).json({
                     message: 'Failed to remove post',
                 })
@@ -101,7 +101,7 @@ export const remove = async (req, res) => {
         })
 
     } catch (error) {
-        console.log(error)
+        console.log(error);
         res.status(500).json({
             message: 'Failed to read posts',
         })
@@ -110,7 +110,7 @@ export const remove = async (req, res) => {
 
 export const update = async (req, res) => {
     try {
-        const postId = req.params.id
+        const postId = req.params.id;
 
         await PostSchema.updateOne(
             {
@@ -128,7 +128,7 @@ export const update = async (req, res) => {
         })
 
     } catch (error) {
-        console.log(error)
+        console.log(error);
         res.status(500).json({
             message: 'Failed to update post',
         })
