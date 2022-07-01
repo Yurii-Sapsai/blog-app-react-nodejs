@@ -3,7 +3,6 @@ import PostSchema from '../models/Post.js'
 export const create = async (req, res) => {
 
     const userId = req.userId;
-    console.log(userId);
 
     try {
         const doc = new PostSchema({
@@ -62,9 +61,7 @@ export const getOne = async (req, res) => {
                 })
             }
             res.json(doc);
-        })
-
-
+        }).populate('user')
 
     } catch (error) {
         console.log(error);

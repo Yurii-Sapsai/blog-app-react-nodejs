@@ -24,9 +24,9 @@ const PostSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
-    imageURL: String
+    imageUrl: String
 }, {
     timestamps: true,
 })
 
-export default mongoose.model('Post', PostSchema);
+export default mongoose.model('Post', PostSchema)
