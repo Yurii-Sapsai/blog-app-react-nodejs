@@ -13,9 +13,15 @@ import { Navigate, useNavigate } from 'react-router-dom'
 import { useState } from 'react';
 import axios from '../../axios'
 
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+
+
 export const AddPost = () => {
   const isAuth = useSelector(selectIsAuth)
   const navigate = useNavigate()
+  const { id } = useParams()
+  const isEditing = Boolean(id)
 
   const [text, setText] = useState('');
   const [title, setTitle] = useState('');
@@ -46,6 +52,18 @@ export const AddPost = () => {
     setText(value);
   }, []);
 
+  useEffect(() => {
+    if (id) {
+      axios.get(`/posts/${id}`)
+        .then(({data}) => {
+          setTitle(data.title);
+          setText(data.text);
+          setTags(data.tags).join(',');
+          setImageUrl(data.imageUrl);
+        })
+    }
+  }, [])
+
   const options = React.useMemo(
     () => ({
       spellChecker: false,
@@ -71,10 +89,13 @@ export const AddPost = () => {
         tags,
         text
       }
-      const { data } = await axios.post('/posts', fields)
-      const id = data._id
+      const { data } = isEditing 
+                        ? await axios.patch(`/posts/${id}`, fields)
+                        : await axios.post('/posts', fields)
 
-      navigate(`/posts/${id}`)
+      const _id = isEditing ? id : data._id
+
+      navigate(`/posts/${_id}`)
 
     } catch (error) {
       console.warn(error)
@@ -118,7 +139,7 @@ export const AddPost = () => {
       <SimpleMDE className={styles.editor} value={text} onChange={onChange} options={options} />
       <div className={styles.buttons}>
         <Button onClick={onSubmit} size="large" variant="contained">
-          Опубликовать
+          {isEditing ? 'Сохранить' : 'Опубликовать'}
         </Button>
         <a href="/">
           <Button size="large">Отмена</Button>
