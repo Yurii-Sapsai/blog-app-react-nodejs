@@ -68,12 +68,10 @@ export const AddPost = () => {
       const fields = {
         title,
         imageUrl: imageUrl,
-        tags: tags.split(','),
+        tags,
         text
       }
-      console.log(fields)
       const { data } = await axios.post('/posts', fields)
-      console.log(data)
       const id = data._id
 
       navigate(`/posts/${id}`)
