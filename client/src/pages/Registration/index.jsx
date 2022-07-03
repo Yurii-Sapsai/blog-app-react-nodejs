@@ -8,17 +8,16 @@ import Avatar from '@mui/material/Avatar';
 import styles from './Login.module.scss';
 
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchAuth, selectIsAuth, fetchRegister } from "../../redux/slices/auth";
-import { Navigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux';
+import { selectIsAuth, fetchRegister } from "../../redux/slices/auth";
+import { Navigate } from 'react-router-dom';
 
 export const Registration = () => {
 
-  const isAuth = useSelector(selectIsAuth)
-  const dispatch = useDispatch()
+  const isAuth = useSelector(selectIsAuth);
+  const dispatch = useDispatch();
 
-
-  const { register, handleSubmit, setError, formState: { errors, isValid } } = useForm(
+  const { register, handleSubmit, formState: { errors, isValid } } = useForm(
     {
       defaultValues: {
         fullName: '',
@@ -29,12 +28,12 @@ export const Registration = () => {
     })
 
   const onSubmit = async (values) => {
-    console.log(values)
-    const data = await dispatch(fetchRegister(values))
+
+    const data = await dispatch(fetchRegister(values));
     if ('token' in data.payload) {
-      window.localStorage.setItem('token', data.payload.token)
+      window.localStorage.setItem('token', data.payload.token);
     } else {
-      alert('Не удалось зарегистрироваться')
+      alert('Не удалось зарегистрироваться');
     }
   }
 
@@ -54,28 +53,28 @@ export const Registration = () => {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-      <TextField className={styles.field} 
-                 label="Полное имя"
-                 error={Boolean(errors.fullName?.message)}
-                 helperText={errors.fullName?.message}
-                 {...register('fullName', { required: 'Укажите полное имя' })}
-                 fullWidth />
-      <TextField className={styles.field}
-                 label="E-Mail"
-                 error={Boolean(errors.email?.message)}
-                 helperText={errors.email?.message}
-                 {...register('email', { required: 'Укажите почту' })}
-                 fullWidth />
-      <TextField className={styles.field}
-                 label="Пароль"
-                 error={Boolean(errors.password?.message)}
-                 helperText={errors.password?.message}
-                 {...register('password', { required: 'Укажите пароль' })}
-                 fullWidth />
+        <TextField className={styles.field}
+          label="Полное имя"
+          error={Boolean(errors.fullName?.message)}
+          helperText={errors.fullName?.message}
+          {...register('fullName', { required: 'Укажите полное имя' })}
+          fullWidth />
+        <TextField className={styles.field}
+          label="E-Mail"
+          error={Boolean(errors.email?.message)}
+          helperText={errors.email?.message}
+          {...register('email', { required: 'Укажите почту' })}
+          fullWidth />
+        <TextField className={styles.field}
+          label="Пароль"
+          error={Boolean(errors.password?.message)}
+          helperText={errors.password?.message}
+          {...register('password', { required: 'Укажите пароль' })}
+          fullWidth />
 
-      <Button size="large" type='submit' disabled={!isValid} variant="contained" fullWidth>
-        Зарегистрироваться
-      </Button>
+        <Button size="large" type='submit' disabled={!isValid} variant="contained" fullWidth>
+          Зарегистрироваться
+        </Button>
       </form>
 
     </Paper>

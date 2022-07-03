@@ -7,24 +7,24 @@ import { Post } from '../components/Post';
 import { TagsBlock } from '../components/TagsBlock';
 import { CommentsBlock } from '../components/CommentsBlock';
 
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchPosts, fetchTags } from '../redux/slices/posts';
 
 export const Home = () => {
 
-  const dispatch = useDispatch()
-  const { posts, tags } = useSelector(state => state.posts)
-  const userData = useSelector(state => state.auth.data)
+  const dispatch = useDispatch();
+  const { posts, tags } = useSelector(state => state.posts);
+  const userData = useSelector(state => state.auth.data);
 
-  const isPostLoading = posts.status === 'loading'
-  const isTagsLoading = tags.status === 'loading'
+  const isPostLoading = posts.status === 'loading';
+  const isTagsLoading = tags.status === 'loading';
 
 
   useEffect(() => {
-    dispatch(fetchPosts())
-    dispatch(fetchTags())
+    dispatch(fetchPosts());
+    dispatch(fetchTags());
   }, [])
-  
+
   return (
     <>
       <Tabs style={{ marginBottom: 15 }} value={0} aria-label="basic tabs example">
@@ -34,12 +34,12 @@ export const Home = () => {
       <Grid container spacing={4}>
         <Grid xs={8} item>
           {(isPostLoading ? Array(5) : posts.items).map((post, index) => isPostLoading
-            ? (<Post key={index} isLoading={true}/>)
+            ? (<Post key={index} isLoading={true} />)
             : (
               <Post
                 _id={post._id}
                 title={post.title}
-                imageUrl={post.imageUrl ? `http://localhost:4444${post.imageUrl}` : ''}                user={post.user}
+                imageUrl={post.imageUrl ? `http://localhost:4444${post.imageUrl}` : ''} user={post.user}
                 createdAt={post.createdAt}
                 viewsCount={post.viewsCount}
                 commentsCount={3}
@@ -49,22 +49,22 @@ export const Home = () => {
             ))}
         </Grid>
         <Grid xs={4} item>
-          <TagsBlock items={tags.items} isLoading={isTagsLoading } />
+          <TagsBlock items={tags.items} isLoading={isTagsLoading} />
           <CommentsBlock
             items={[
               {
                 user: {
-                  fullName: 'Вася Пупкин',
-                  avatarUrl: 'https://mui.com/static/images/avatar/1.jpg',
+                  fullName: "David",
+                  avatarUrl: "https://mui.com/static/images/avatar/1.jpg",
                 },
-                text: 'Это тестовый комментарий',
+                text: "text",
               },
               {
                 user: {
-                  fullName: 'Иван Иванов',
-                  avatarUrl: 'https://mui.com/static/images/avatar/2.jpg',
+                  fullName: "Mike",
+                  avatarUrl: "https://mui.com/static/images/avatar/2.jpg",
                 },
-                text: 'When displaying three lines or more, the avatar is not aligned at the top. You should set the prop to align the avatar at the top',
+                text: "text",
               },
             ]}
             isLoading={false}

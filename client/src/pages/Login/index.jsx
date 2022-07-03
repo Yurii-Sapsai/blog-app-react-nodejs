@@ -6,15 +6,14 @@ import Button from "@mui/material/Button";
 import styles from "./Login.module.scss";
 
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchAuth, selectIsAuth } from "../../redux/slices/auth";
-import { Navigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom';
 
 export const Login = () => {
 
-  const isAuth = useSelector(selectIsAuth)
-  const dispatch = useDispatch()
-
+  const isAuth = useSelector(selectIsAuth);
+  const dispatch = useDispatch();
 
   const { register, handleSubmit, formState: { errors, isValid } } = useForm(
     {
@@ -26,15 +25,17 @@ export const Login = () => {
     })
 
   const onSubmit = async (values) => {
+    
     const data = await dispatch(fetchAuth(values))
 
     if (!data.payload) {
-      alert('Не удалось авторизоваться')
+      alert('Не удалось авторизоваться');
     }
     if ('token' in data.payload) {
-      window.localStorage.setItem('token', data.payload.token)
+      window.localStorage.setItem('token', data.payload.token);
     }
   }
+
   if (isAuth) {
     return <Navigate to='/' />
   }

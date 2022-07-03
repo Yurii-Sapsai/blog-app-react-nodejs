@@ -16,7 +16,7 @@ import * as PostController from './controllers/PostController.js';
 
 const app = express();
 app.use(express.json());
-app.use(cors())
+app.use(cors());
 
 const storage = multer.diskStorage({
     destination: (_, __, cb) => {
@@ -35,7 +35,7 @@ app.get('/', (req, res) => {
 
 app.post('/auth/register', registerValidation, handleValidationErrors, UserController.register);
 app.post('/auth/login', loginValidation, handleValidationErrors, UserController.login);
-app.get('/auth/me', checkAuth, UserController.getMe)
+app.get('/auth/me', checkAuth, UserController.getMe);
 
 app.get('/posts', PostController.getAll);
 app.get('/posts/:id', PostController.getOne);

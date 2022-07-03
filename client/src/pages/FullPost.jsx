@@ -9,25 +9,24 @@ import axios from '../axios'
 
 export const FullPost = () => {
 
-  const {id} = useParams()
+  const { id } = useParams()
   const [post, setPost] = useState()
   const [isLoading, setLoading] = useState(true)
 
-  useEffect(()=>{
+  useEffect(() => {
     axios.get(`/posts/${id}`)
-         .then(post => {
-          setPost(post.data)
-          setLoading(false)
-         })
-         .catch((err)=>{
-              console.warn(err)
-              console.log('Get post is failed')
-         })
-  },[])
+      .then(post => {
+        setPost(post.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.warn(err);
+        console.log('Get post is failed');
+      })
+  }, [])
 
-  console.log(post)
-  if(isLoading){
-    return <Post isLoading={isLoading}/>
+  if (isLoading) {
+    return <Post isLoading={isLoading} />
   }
 
   return (
@@ -43,23 +42,23 @@ export const FullPost = () => {
         tags={post.tags}
         isFullPost
       >
-        <ReactMarkdown children={post.text}/>
+        <ReactMarkdown children={post.text} />
       </Post>
       <CommentsBlock
         items={[
           {
             user: {
-              fullName: "Вася Пупкин",
+              fullName: "David",
               avatarUrl: "https://mui.com/static/images/avatar/1.jpg",
             },
-            text: "Это тестовый комментарий 555555",
+            text: "text",
           },
           {
             user: {
-              fullName: "Иван Иванов",
+              fullName: "Mike",
               avatarUrl: "https://mui.com/static/images/avatar/2.jpg",
             },
-            text: "When displaying three lines or more, the avatar is not aligned at the top. You should set the prop to align the avatar at the top",
+            text: "text",
           },
         ]}
         isLoading={false}
